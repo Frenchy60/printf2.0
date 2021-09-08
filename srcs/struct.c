@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   basestr2.c                                         :+:      :+:    :+:   */
+/*   struct.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agraton <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/08/23 14:16:26 by agraton           #+#    #+#             */
-/*   Updated: 2021/08/23 14:30:51 by agraton          ###   ########.fr       */
+/*   Created: 2021/09/08 15:29:17 by agraton           #+#    #+#             */
+/*   Updated: 2021/09/08 18:21:37 by agraton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "../includes/ft_printf.h"
 
-char	ft_itoc_base(int c, int base)
+a_list	*ft_newa_list()
 {
-	if (c > base)
-		return (c %= base);
-	if (c < 10)
-		return (c + '0');
-	if (c < 36)
-		return (c - 10 + 'a');
-	if (c < 62)
-		return (c - 36 + 'A');
-	return ('\0');
+	a_list	*list;
+
+	list = malloc(sizeof(a_list));
+	if (!list)
+		return (NULL);
+	list->size = 0;
+	list->left = 0;
+	list->zero = 0;
+	list->dot = 0;
+	list->dotn = 0;
+	list->hastag = 0;
+	list->space = 0;
+	list->plus = 0;
+	return (list);
 }
