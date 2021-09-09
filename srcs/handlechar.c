@@ -6,13 +6,13 @@
 /*   By: agraton <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/08 14:48:44 by agraton           #+#    #+#             */
-/*   Updated: 2021/09/08 18:39:50 by agraton          ###   ########.fr       */
+/*   Updated: 2021/09/09 18:17:35 by agraton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int		ft_printc(int d, a_list *list)
+int	ft_printc(int d, a_list *list)
 {
 	int		size;
 	char	c;
@@ -25,18 +25,20 @@ int		ft_printc(int d, a_list *list)
 		while (size-- > 1)
 			write(1, " ", 1);
 	write(1, &c, 1);
-	if (size > 1 && !(list->left))
+	if (size > 1 && list->left)
 		while (size-- > 1)
 			write(1, " ", 1);
-	return (ft_max(1, size));
+	return (ft_max(1, list->left));
 }
 
-int		ft_prints(char *s, a_list *list)
+int	ft_prints(char *s, a_list *list)
 {
 	int	i;
-	int ss;
+	int	ss;
 	int	size;
 
+	if (!s)
+		s = "(null)";
 	size = list->left;
 	if (!(list->left))
 		size = list->size;

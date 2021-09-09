@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <limits.h>
 #include "../includes/ft_printf.h"
 
 int		main(void)
 {
 	char	*str = "Hello";
 
-	printf("%15c|\n", 'c');
+/*	printf("%15c|\n", 'c');
 	ft_printf("%15c|\n", 'c');
 	printf("%15s|\n", str);
 	ft_printf("%15s|\n", str);
@@ -35,4 +36,10 @@ int		main(void)
 	ft_printf("%d|\n", -5);
 	printf("%+15.10d|\n", -5);
 	ft_printf("%+15.10d|\n", -5);
+*/
+//	int o = printf(" %-2c |\n", '0');
+//	int f = ft_printf(" %-2c |\n", '0');
+	int o = printf(" %#x|\n", 0);
+	int f = ft_printf(" %#x|\n", 0);
+	printf("o = %d\nf = %d\n", o, f);
 }

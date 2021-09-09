@@ -6,11 +6,39 @@
 /*   By: agraton <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/23 15:03:18 by agraton           #+#    #+#             */
-/*   Updated: 2021/09/08 20:07:20 by agraton          ###   ########.fr       */
+/*   Updated: 2021/09/09 18:48:52 by agraton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
+
+static int	ft_readflagsloop1(char **s, a_list *list)
+{
+	if (**s >= '1' && **s <= '9')
+		list->size = ft_atoip(s);
+	else if (**s == '-')
+	{
+		(*s)++;
+		if (**s >= '0' && **s <= '9')
+			list->left = ft_atoip(s);
+		else
+			(*s)--;
+	}
+	else if (**s == '.' || **s == '0')
+	{
+		list->dot = 1;
+		if (**s == '0')
+			list->zero = 1;
+		(*s)++;
+		if (**s >= '0' && **s <= '9')
+			list->dotn = ft_atoip(s);
+		else
+			(*s)--;
+	}
+	else if (1)
+		return (0);
+	return (1);
+}
 
 a_list	*ft_readflags(char **s)
 {
@@ -21,23 +49,10 @@ a_list	*ft_readflags(char **s)
 		return (NULL);
 	(*s)++;
 	while ((**s >= '0' && **s <= '9') || **s == '-' || **s == '.' || **s == '#'
-			|| **s == ' ' || **s == '+')
+		|| **s == ' ' || **s == '+')
 	{
-		if (**s >= '1' && **s <= '9')
-			list->size = ft_atoip(s);
-		else if (**s == '-')
-		{
-			(*s)++;
-			list->left = ft_max(1, ft_atoip(s));
-		}
-		else if (**s == '0')
-			list->zero = 1;
-		else if (**s == '.')
-		{
-			list->dot = 1;
-			(*s)++;
-			list->dotn = ft_atoip(s);
-		}
+		if (ft_readflagsloop1(s, list))
+			;
 		else if (**s == '#')
 			list->hastag = 1;
 		else if (**s == ' ')
@@ -62,9 +77,18 @@ void	ft_readarg(va_list args, char **s, int *count)
 		*count += ft_prints(va_arg(args, char *), list);
 	else if (**s == 'p')
 		*count += ft_printp(va_arg(args, void *), list);
-	else if (**s == 'd')
-		*count += ft_printd((long)va_arg(args, int), list);
+	else if (**s == 'i' || **s == 'd')
+		*count += ft_printi((long)va_arg(args, int), list);
+	else if (**s == 'u')
+		*count += ft_printu((unsigned int) va_arg(args, int), list);
+	else if (**s == 'x')
+		*count += ft_printx(va_arg(args, unsigned int), list);
+	else if (**s == 'X')
+		*count += ft_printX(va_arg(args, unsigned int), list);
+	else if (**s == '%')
+		*count += write(1, "%", 1);
 	(*s)++;
+	free(list);
 }
 
 int	ft_printf(const char *str, ...)
